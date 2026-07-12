@@ -1,0 +1,9 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">NOTIFICATION CENTER</p><h1>Notifications</h1><p>All of your booking, maintenance and transfer updates.</p></div>
+<form method="post">{% csrf_token %}<button class="btn btn-light" type="submit" name="action" value="mark_all_read"><i class="bi bi-check2-all"></i> Mark all as read</button></form></div>
+<section class="panel">
+<form class="toolbar" method="get"><div class="table-search"><i class="bi bi-search"></i><input name="q" value="{{ query }}" placeholder="Search notifications..."></div><button class="btn btn-light" type="submit"><i class="bi bi-funnel"></i> Search</button></form>
+{% for n in notifications %}<a href="{% url 'notification_open' n.id %}" class="notification{% if not n.read %} unread{% endif %}"><i class="bi bi-bell-fill"></i><p><strong>{{ n.title }}</strong><br>{{ n.body }}<small>{{ n.created_at|timesince }} ago</small></p></a>{% empty %}<p class="empty">You are all caught up.</p>{% endfor %}
+</section>
+{% endblock %}
